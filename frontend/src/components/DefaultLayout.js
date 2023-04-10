@@ -11,6 +11,7 @@ import {
   ShoppingCartOutlined,
   DatabaseOutlined,
   BarChartOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import "../resourses/layout.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,6 +24,7 @@ const DefaultLayout = (props) => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("pos-user"));
   // console.log(`inside default layout and user is : ${user.admin}`);
+
   const toggle = () => {
     setCollapsed(!collapsed);
   };
@@ -41,7 +43,9 @@ const DefaultLayout = (props) => {
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           <h3>{collapsed ? "SAS" : "Super Market Automation Software"}</h3>
-          <p>{user.admin ? `Admin` : "Employee"} : {user.name}</p>
+          <p>
+            {user.admin ? `Admin` : "Employee"} : {user.name}
+          </p>
         </div>
         <Menu
           theme="dark"
@@ -73,6 +77,11 @@ const DefaultLayout = (props) => {
               <Link to="/stats">Statistics</Link>
             </Menu.Item>
           )}
+          {user.admin && (
+            <Menu.Item key="/employees" icon={<UsergroupAddOutlined />}>
+              <Link to="/employees">Employees</Link>
+            </Menu.Item>
+          )}
           <Menu.Item
             key="/logout"
             icon={<LoginOutlined />}
@@ -99,8 +108,8 @@ const DefaultLayout = (props) => {
             onClick={() => navigate("/cart")}
           >
             <b>
-              {" "}
-              <p className="mt-3 mr-2">{cartItems.length}</p>
+              {/* {" "} */}
+              <span className="mt-3 mr-2 cart">{cartItems.length}</span>
             </b>
             <ShoppingCartOutlined />
           </div>

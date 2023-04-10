@@ -2,7 +2,8 @@ import { Button, Form, Input, message, Modal, Select, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DefaultLayout from "../components/DefaultLayout";
-import axios from "axios";
+// import axios from "axios";
+import axios from '../api/axios'
 
 import {
   DeleteOutlined,
@@ -84,6 +85,8 @@ function CartPage() {
     });
 
     setSubTotal(temp);
+
+    console.log(cartItems)
   }, [cartItems]);
 
   const onFinish = (values) => {
@@ -98,6 +101,8 @@ function CartPage() {
       userId: JSON.parse(localStorage.getItem("pos-user"))._id,
     };
 
+
+    // generate bill
     axios
       .post("/api/bills/charge-bill", reqObject)
       .then(() => {
@@ -105,8 +110,19 @@ function CartPage() {
         navigate('/bills')
       })
       .catch(() => {
-        message.success("Something went wrong");
+        message.error("Something went wrong");
       });
+
+      // update inventory
+      axios
+        .post("/api/items/update-items", cartItems)
+        .then(() => {
+          message.success("Inventory Charged Successfully");
+          navigate("/inventory");
+        })
+        .catch(() => {
+          message.error("Something went wrong");
+        });
   };
 
   return (
@@ -130,7 +146,7 @@ function CartPage() {
         </div>
 
         <Button type="primary" onClick={() => setBillChargeModal(true)}>
-          CHARGE BILL
+          Generate Bill
         </Button>
       </div>
 

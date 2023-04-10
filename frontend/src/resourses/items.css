@@ -9,7 +9,7 @@
      transition: all 0.3s;
 }
 .item .name{
-    color: tomato;
+    color: rgb(0, 0, 0);
     font-size: 20px;
 }
 .item .price{
@@ -20,9 +20,9 @@
 
 .item button{
     margin-top: 10px;
-     background-color: rgb(15, 155, 15) !important;
-     color: white !important;
-     border-radius: 10px;
+     background-color: #047979 !important;
+     color: rgb(255, 255, 255) !important;
+     border-radius: 20px;
 }
 
 input{

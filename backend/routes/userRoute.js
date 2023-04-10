@@ -30,4 +30,41 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.get("/get-all-users", async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.send(users)
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+router.post("/add-user", async (req, res) => {
+  try {
+    const newuser = new UserModel({ ...req.body, verified: true });
+    await newuser.save();
+    res.send("User Registered successfully");
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+router.post("/edit-user", async (req, res) => {
+  try {
+    await UserModel.findOneAndUpdate({ _id: req.body.userId }, req.body);
+    res.send("User updated successfully");
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+router.post("/delete-user", async (req, res) => {
+  try {
+    await UserModel.findOneAndDelete({ _id: req.body.userId });
+    res.send("User deleted successfully");
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
 module.exports = router;

@@ -3,16 +3,15 @@ import DefaultLayout from "../components/DefaultLayout";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import Footer from "../components/Footer";
-import { Table } from "antd";
-import { useNavigate } from "react-router-dom";
-
+// import "rsuite/dist/styles/rsuite-default.css";
+import { PieChart } from "@rsuite/charts";
 
 function Stats() {
-  const [billsData, setBillsData] = useState([]);
-  const user = JSON.parse(localStorage.getItem("pos-user"));
-  const navigate = useNavigate()
+  const [pieDataCategory, setPieDataCategory] = useState([]);
+  const [pieDataItems, setPieDataItems] = useState([]);
 
   const dispatch = useDispatch();
+
   const getAllBills = () => {
     dispatch({ type: "showLoading" });
     axios
@@ -21,7 +20,8 @@ function Stats() {
         dispatch({ type: "hideLoading" });
         const data = response.data;
         data.reverse();
-        setBillsData(data);
+        console.log(data);
+        getStats(data);
       })
       .catch((error) => {
         dispatch({ type: "hideLoading" });
@@ -29,24 +29,48 @@ function Stats() {
       });
   };
 
-  const columns = [
-    {
-      title: "Customer",
-      dataIndex: "customerName",
-    },
-    {
-      title: "Phone Number",
-      dataIndex: "customerPhoneNumber",
-    },
-    {
-      title: "Created On",
-      dataIndex: "createdAt",
-      render: (value) => <span>{value.toString().substring(0, 10)}</span>,
-    },
-  ];
+  const getStats = async (data) => {
+    const categoryTotals = data.reduce((accumulator, bill) => {
+      bill.cartItems.forEach((item) => {
+        const { category, price, quantity } = item;
+        const itemTotal = price * quantity;
+
+        if (accumulator[category]) {
+          accumulator[category] += itemTotal;
+        } else {
+          accumulator[category] = itemTotal;
+        }
+      });
+
+      return accumulator;
+    }, {});
+    await setPieDataCategory(
+      Object.entries(categoryTotals).map(([category, total]) => [
+        category,
+        total,
+      ])
+    );
+
+    const itemTotals = data.reduce((accumulator, bill) => {
+      bill.cartItems.forEach((item) => {
+        const { name, price, quantity } = item;
+        const itemTotal = price * quantity;
+
+        if (accumulator[name]) {
+          accumulator[name] += itemTotal;
+        } else {
+          accumulator[name] = itemTotal;
+        }
+      });
+
+      return accumulator;
+    }, {});
+    await setPieDataItems(
+      Object.entries(itemTotals).map(([items, total]) => [items, total])
+    );
+  };
 
   useEffect(() => {
-    if (!user.admin) navigate("/home");
     getAllBills();
   }, []);
 
@@ -55,8 +79,28 @@ function Stats() {
       <div className="d-flex justify-content-between">
         <h3>Statistics</h3>
       </div>
-      <Table columns={columns} dataSource={billsData} bordered />
-
+      <div
+        style={{
+          display: "block",
+          width: "auto",
+          paddingLeft: 30,
+        }}
+      >
+        <h3 className="text-center">Sales by category</h3>
+        <PieChart name="PieChart" data={pieDataCategory} legend={false} />
+      </div>
+      <br />
+      <hr />
+      <div
+        style={{
+          display: "block",
+          width: "auto",
+          paddingLeft: 30,
+        }}
+      >
+        <h3 className="text-center">Sales by Items</h3>
+        <PieChart name="PieChart" data={pieDataItems} legend={false} />
+      </div>
       <Footer />
     </DefaultLayout>
   );

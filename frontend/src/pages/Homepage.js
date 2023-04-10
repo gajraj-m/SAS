@@ -56,7 +56,6 @@ function Homepage() {
 
   useEffect(() => {
     getAllItems();
-    // console.log(itemsData)
   }, []);
 
   return (

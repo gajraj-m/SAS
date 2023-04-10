@@ -3,13 +3,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Items from "./pages/Items";
 import CartPage from "./pages/CartPage";
-import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Landing from "./pages/Landing";
 import Customers from "./pages/Customers";
 import Inventory from "./pages/Inventory";
 import Bills from "./pages/Bills";
 import Stats from "./pages/Stats";
+import Employees from "./pages/Employees";
 function App() {
   return (
     <div className="App">
@@ -56,6 +55,14 @@ function App() {
             }
           />
           <Route
+            path="/employees"
+            element={
+              <ProtectedRoute>
+                <Employees />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/customers"
             element={
               <ProtectedRoute>
@@ -71,7 +78,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
         </Routes>

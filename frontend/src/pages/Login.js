@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Col, Form, Input, message, Row } from "antd";
 import "../resourses/authentication.css";
 import axios from "../api/axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 function Login() {
@@ -48,9 +48,6 @@ function Login() {
             </Form.Item>
 
             <div className="d-flex justify-content-between align-items-center">
-              <Link to="/register">
-                Not Yet Registered ? Click Here To Register
-              </Link>
               <Button htmlType="submit" type="primary">
                 Login
               </Button>

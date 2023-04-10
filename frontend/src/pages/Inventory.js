@@ -40,7 +40,7 @@ function Inventory() {
       ),
     },
     {
-      title: "Price/kg",
+      title: "Price/250g",
       dataIndex: "price",
     },
     {
