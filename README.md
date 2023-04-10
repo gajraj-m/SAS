@@ -2,6 +2,12 @@
 
 Web app Link : https://6434206b5408492c8f7a7f0b--extraordinary-queijadas-e6ab63.netlify.app/
 
+login as admin first to see all the employee details
+username - admin
+password - 12345
+
+Only Admin can add employees. ALready created employees have password : 12345
+
 To run the project on localhost
 
 1. clone the repo
