@@ -54,6 +54,21 @@
   padding-bottom: 100px;
 }
 
+p{
+  color:#e1ffff !important;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  /* padding-bottom: 100px; */
+  margin-top: -60px;
+}
+
+.footer{
+  /* text-align: center; */
+  position: absolute;
+  bottom: 0;
+  margin: auto;
+}
 .ant-menu-item-selected{
   background-color: #047979 !important;
   border-top-right-radius: 8px;

@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message, Modal, Select, Table } from "antd";
-import ReactToPrint from 'react-to-print';
+import { EyeOutlined } from "@ant-design/icons";
+import { Button, Modal, Table } from "antd";
 import { useReactToPrint } from 'react-to-print';
+import Footer from "../components/Footer";
 function Bills() {
     const componentRef = useRef();
   const [billsData, setBillsData] = useState([]);
@@ -124,13 +124,13 @@ function Bills() {
             <div className="d-flex justify-content-between bill-header pb-2">
               <div>
                 <h1>
-                  <b>SR MARKET</b>
+                  <b>Super Market</b>
                 </h1>
               </div>
               <div>
-                <p>Hyderabd</p>
-                <p>Amberpet 500013</p>
-                <p>9989649278</p>
+                <p>Rourkela</p>
+                <p>Sector 2 769006</p>
+                <p>9873495792</p>
               </div>
             </div>
             <div className="bill-customer-details my-2">
@@ -145,29 +145,45 @@ function Bills() {
                 {selectedBill.createdAt.toString().substring(0, 10)}
               </p>
             </div>
-            <Table dataSource={selectedBill.cartItems} columns={cartcolumns} pagination={false}/>
+            <Table
+              dataSource={selectedBill.cartItems}
+              columns={cartcolumns}
+              pagination={false}
+            />
 
             <div className="dotted-border">
-                <p><b>SUB TOTAL</b> : {selectedBill.subTotal}</p>
-                <p><b>Tax</b> : {selectedBill.tax}</p>
+              <p>
+                <b>SUB TOTAL</b> : {selectedBill.subTotal}
+              </p>
+              <p>
+                <b>Tax</b> : {selectedBill.tax}
+              </p>
             </div>
 
             <div>
-                <h2><b>GRAND TOTAL : {selectedBill.totalAmount}</b></h2>
+              <h2>
+                <b>
+                  GRAND TOTAL :  {"\u20B9"} 
+                  {selectedBill.totalAmount}
+                </b>
+              </h2>
             </div>
             <div className="dotted-border"></div>
 
             <div className="text-center">
-                  <p>Thanks</p>
-                  <p>Visit Again :)</p>
+              <p>Thanks</p>
+              <p>Visit Again :)</p>
             </div>
           </div>
 
           <div className="d-flex justify-content-end">
-                  <Button type='primary' onClick={handlePrint}>Print Bill</Button>
+            <Button type="primary" onClick={handlePrint}>
+              Print Bill
+            </Button>
           </div>
         </Modal>
       )}
+      <Footer/>
     </DefaultLayout>
   );
 }

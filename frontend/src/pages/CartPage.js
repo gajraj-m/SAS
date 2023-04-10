@@ -10,6 +10,7 @@ import {
   MinusCircleOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 function CartPage() {
   const { cartItems } = useSelector((state) => state.rootReducer);
   const [billChargeModal, setBillChargeModal] = useState(false);
@@ -46,7 +47,7 @@ function CartPage() {
       ),
     },
     {
-      title: "Price",
+      title: "Price/kg",
       dataIndex: "price",
     },
     {
@@ -111,12 +112,20 @@ function CartPage() {
   return (
     <DefaultLayout>
       <h3>Cart</h3>
-      <Table columns={columns} dataSource={cartItems} bordered pagination={false}/>
+      <Table
+        columns={columns}
+        dataSource={cartItems}
+        bordered
+        pagination={false}
+      />
       <hr />
       <div className="d-flex justify-content-end flex-column align-items-end">
         <div className="subtotal">
           <h3>
-            SUB TOTAL : <b>{subTotal} $/-</b>
+            SUB TOTAL :{" "}
+            <b>
+              {"\u20B9"} {subTotal} /-
+            </b>
           </h3>
         </div>
 
@@ -167,6 +176,7 @@ function CartPage() {
           </div>
         </Form>{" "}
       </Modal>
+      <Footer/>
     </DefaultLayout>
   );
 }

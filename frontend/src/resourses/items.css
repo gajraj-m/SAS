@@ -2,6 +2,7 @@
     box-shadow: 0 0 3px rgba(110, 110, 110, 0.781);
     padding: 15px;
     margin-top: 20px;
+    border-radius: 10px;
 }
 .item:hover{
      transform: scale(1.05);
@@ -21,6 +22,7 @@
     margin-top: 10px;
      background-color: rgb(15, 155, 15) !important;
      color: white !important;
+     border-radius: 10px;
 }
 
 input{

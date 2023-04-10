@@ -19,7 +19,7 @@ export const rootReducer = (state = initailState, action) => {
       return {
         ...state,
         cartItems: state.cartItems.map((item) =>
-          item._id == action.payload._id
+          item._id === action.payload._id
             ? { ...item, quantity: action.payload.quantity }
             : item
         ),

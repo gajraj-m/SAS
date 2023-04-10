@@ -5,11 +5,15 @@ import { Col, Row } from "antd";
 import Item from "../components/Item";
 import "../resourses/items.css";
 import { useDispatch } from "react-redux";
+import Footer from "../components/Footer";
 
 function Homepage() {
 
   const [itemsData, setItemsData] = useState([]);
   const [selectedCategory, setSelectedCategoty] = useState("fruits");
+
+  // const user = JSON.parse(localStorage.getItem("pos-user"));
+  // console.log(`inside homepage and user is : ${user.name}`)
 
   const categories = [
     {
@@ -26,6 +30,11 @@ function Homepage() {
       name: "meat",
       imageURL:
         "https://images.ctfassets.net/3s5io6mnxfqz/5GlOYuzg0nApcehTPlbJMy/140abddf0f3f93fa16568f4d035cd5e6/AdobeStock_175165460.jpeg?fm=jpg&w=900&fl=progressive",
+    },
+    {
+      name: "dairy",
+      imageURL:
+        "https://domf5oio6qrcr.cloudfront.net/medialibrary/9685/iStock-544807136.jpg",
     },
   ];
   const dispatch = useDispatch();
@@ -74,6 +83,7 @@ function Homepage() {
           );
         })}
       </Row>
+      <Footer/>
     </DefaultLayout>
   );
 }

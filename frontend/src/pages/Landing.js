@@ -5,10 +5,10 @@ import axios from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-function Login() {
+function Landing() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const onFinish = (values) => {
     dispatch({ type: "showLoading" });
     axios
@@ -21,7 +21,7 @@ function Login() {
       })
       .catch(() => {
         dispatch({ type: "hideLoading" });
-        message.error("User doesn't exist, please register or check your credentials");
+        message.error("Something went wrong");
       });
   };
 
@@ -34,27 +34,12 @@ function Login() {
       <Row>
         <Col lg={8} xs={22}>
           <Form layout="vertical" onFinish={onFinish}>
-            <h1>
-              <b>Hey Employee !!</b>
-            </h1>
-            <hr />
-            <h3>Login</h3>
-
-            <Form.Item name="userId" label="User ID">
-              <Input />
-            </Form.Item>
-            <Form.Item name="password" label="Password">
-              <Input type="password" />
-            </Form.Item>
-
-            <div className="d-flex justify-content-between align-items-center">
-              <Link to="/register">
-                Not Yet Registered ? Click Here To Register
-              </Link>
-              <Button htmlType="submit" type="primary">
-                Login
-              </Button>
-            </div>
+            <Button htmlType="submit" type="primary">
+              Manager
+            </Button>
+            <Button htmlType="submit" type="primary">
+              Employee
+            </Button>
           </Form>
         </Col>
       </Row>
@@ -62,4 +47,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Landing;

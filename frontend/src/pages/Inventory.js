@@ -2,23 +2,17 @@ import React, { useEffect, useState } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import axios from "../api/axios";
 import { useDispatch } from "react-redux";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message, Modal, Select, Table } from "antd";
-import { useNavigate } from "react-router-dom";
+import { EditOutlined } from "@ant-design/icons";
+import { Button, Form, Input, message, Modal, Table } from "antd";
 import Footer from "../components/Footer";
 
-function Items() {
+function Inventory() {
   const [itemsData, setItemsData] = useState([]);
   const [addEditModalVisibilty, setAddEditModalVisibilty] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
 
-  const user = JSON.parse(localStorage.getItem("pos-user"));
-  // console.log(user);
-
-
-  // fetch all items frconst user = localStorage.getItem("pos-user");
+  // fetch all items from database
   const getAllItems = () => {
     dispatch({ type: "showLoading" });
     axios
@@ -29,23 +23,6 @@ function Items() {
       })
       .catch((error) => {
         dispatch({ type: "hideLoading" });
-        console.log(error);
-      });
-  };
-
-  // remove item from database
-  const deleteItem = (record) => {
-    dispatch({ type: "showLoading" });
-    axios
-      .post("/api/items/delete-item", { itemId: record._id })
-      .then((response) => {
-        dispatch({ type: "hideLoading" });
-        message.success("Item deleted successdully");
-        getAllItems();
-      })
-      .catch((error) => {
-        dispatch({ type: "hideLoading" });
-        message.error("Something went wrong");
         console.log(error);
       });
   };
@@ -71,6 +48,10 @@ function Items() {
       dataIndex: "category",
     },
     {
+      title: "Quantity",
+      dataIndex: "quantity",
+    },
+    {
       title: "Actions",
       dataIndex: "_id",
       render: (id, record) => (
@@ -82,14 +63,12 @@ function Items() {
               setAddEditModalVisibilty(true);
             }}
           />
-          <DeleteOutlined className="mx-2" onClick={() => deleteItem(record)} />
         </div>
       ),
     },
   ];
 
   useEffect(() => {
-    if(!user.admin) navigate("/home");
     getAllItems();
   }, []);
 
@@ -110,6 +89,8 @@ function Items() {
           console.log(error);
         });
     } else {
+      values.quantity = Number(values.quantity) + editingItem.quantity;
+      
       axios
         .post("/api/items/edit-item", { ...values, itemId: editingItem._id })
         .then((response) => {
@@ -128,12 +109,6 @@ function Items() {
   };
   return (
     <DefaultLayout>
-      <div className="d-flex justify-content-between">
-        <h3>Items</h3>
-        <Button type="primary" onClick={() => setAddEditModalVisibilty(true)}>
-          Add Item
-        </Button>
-      </div>
       <Table columns={columns} dataSource={itemsData} bordered />
 
       {addEditModalVisibilty && (
@@ -154,20 +129,8 @@ function Items() {
             <Form.Item name="name" label="Name">
               <Input />
             </Form.Item>
-            <Form.Item name="price" label="Price/kg">
+            <Form.Item name="quantity" label="Quantity added">
               <Input />
-            </Form.Item>
-            <Form.Item name="image" label="Image URL">
-              <Input />
-            </Form.Item>
-
-            <Form.Item name="category" label="Category">
-              <Select>
-                <Select.Option value="fruits">Fruits</Select.Option>
-                <Select.Option value="vegetables">Vegetables</Select.Option>
-                <Select.Option value="meat">Meat</Select.Option>
-                <Select.Option value="dairy">Dairy</Select.Option>
-              </Select>
             </Form.Item>
 
             <div className="d-flex justify-content-end">
@@ -183,4 +146,4 @@ function Items() {
   );
 }
 
-export default Items;
+export default Inventory;

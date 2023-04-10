@@ -1,15 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message, Modal, Select, Table } from "antd";
-import ReactToPrint from "react-to-print";
-import { useReactToPrint } from "react-to-print";
 import Footer from "../components/Footer";
-function Customers() {
-  const componentRef = useRef();
+import { Table } from "antd";
+import { useNavigate } from "react-router-dom";
+
+
+function Stats() {
   const [billsData, setBillsData] = useState([]);
+  const user = JSON.parse(localStorage.getItem("pos-user"));
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
   const getAllBills = () => {
@@ -45,19 +46,20 @@ function Customers() {
   ];
 
   useEffect(() => {
+    if (!user.admin) navigate("/home");
     getAllBills();
   }, []);
 
   return (
     <DefaultLayout>
       <div className="d-flex justify-content-between">
-        <h3>Customers</h3>
+        <h3>Statistics</h3>
       </div>
       <Table columns={columns} dataSource={billsData} bordered />
 
-      <Footer />  
+      <Footer />
     </DefaultLayout>
   );
 }
 
-export default Customers;
+export default Stats;
